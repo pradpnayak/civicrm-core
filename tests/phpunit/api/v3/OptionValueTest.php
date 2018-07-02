@@ -461,7 +461,7 @@ class api_v3_OptionValueTest extends CiviUnitTestCase {
     }
     catch (Exception $e) {
       try {
-        $assetAccountRelValue = $this->callAPISuccessGetValue('EntityFinancialAccount', [
+        $assetAccountRelValue = $this->callAPISuccessGetSingle('EntityFinancialAccount', [
           'return' => "account_relationship",
           'entity_table' => "civicrm_option_value",
           'entity_id' => $ov['id'],
@@ -495,17 +495,17 @@ class api_v3_OptionValueTest extends CiviUnitTestCase {
    * @param int $financialAccountId
    */
   protected function checkPaymentMethodFinancialAccountRelationship($paymentMethodId, $financialAccountId) {
-    $assetAccountRelValue = $this->callAPISuccessGetValue('EntityFinancialAccount', [
+    $assetAccountRelValue = $this->callAPISuccessGetSingle('EntityFinancialAccount', [
       'return' => "account_relationship",
       'entity_table' => "civicrm_option_value",
       'entity_id' => $paymentMethodId,
       'financial_account_id' => $financialAccountId,
     ]);
-    $checkAssetAccountIs = $this->callAPISuccessGetValue('OptionValue', [
+    $checkAssetAccountIs = $this->callAPISuccessGetSingle('OptionValue', [
       'return' => "id",
       'option_group_id' => "account_relationship",
       'name' => "Asset Account is",
-      'value' => $assetAccountRelValue,
+      'value' => $assetAccountRelValue['account_relationship'],
     ]);
   }
 
