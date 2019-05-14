@@ -302,7 +302,6 @@ class CRM_Activity_BAO_Query {
         }
 
       case 'activity_tags':
-        $value = array_keys($value);
         $activityTags = CRM_Core_PseudoConstant::get('CRM_Core_DAO_EntityTag', 'tag_id', array('onlyActive' => FALSE));
 
         $names = array();
@@ -467,11 +466,9 @@ class CRM_Activity_BAO_Query {
     $form->addYesNo('activity_test', ts('Activity is a Test?'));
     $activity_tags = CRM_Core_BAO_Tag::getTags('civicrm_activity');
     if ($activity_tags) {
-      foreach ($activity_tags as $tagID => $tagName) {
-        $form->_tagElement = &$form->addElement('checkbox', "activity_tags[$tagID]",
-          NULL, $tagName
-        );
-      }
+      $form->add('select', 'activity_tags', ts('Activity Tag(s)'), $activity_tags, FALSE,
+        ['id' => 'activity_tags', 'multiple' => 'multiple', 'class' => 'crm-select2']
+      );
     }
 
     $parentNames = CRM_Core_BAO_Tag::getTagSet('civicrm_activity');
